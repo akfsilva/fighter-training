@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Fighter Training</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -15,43 +13,25 @@
 
 <main>
 
-<section class="panel">
-  <h2>📂 Vídeos disponíveis</h2>
-  <select id="videoSelect"></select>
+<section id="treinos">
+  <h2>Treinos (1 a 30)</h2>
+  <select id="treinoSelect"></select>
+  <button onclick="novoExercicio()">➕ Exercício</button>
+  <button onclick="excluirTreino()">🗑️ Excluir Treino</button>
 </section>
 
-<section class="panel">
-  <h2>➕ Criar Exercício</h2>
-
-  <input id="exName" placeholder="Nome do exercício">
-  <input id="exSeries" type="number" placeholder="Séries">
-  <input id="exReps" type="number" placeholder="Repetições">
-  <input id="exLoad" placeholder="Carga (kg ou livre)">
-
-  <button onclick="addExercise()">Adicionar exercício</button>
+<section id="editor">
+  <h2>Exercícios do Treino</h2>
+  <div id="listaExercicios"></div>
 </section>
 
-<section class="panel">
-  <h2>📋 Treino do Dia</h2>
-  <ul id="exerciseList"></ul>
-</section>
-
-<section class="panel">
-  <h2>▶️ Executar Exercício</h2>
-  <video id="player" controls></video>
-  <div id="timer">00:00</div>
-  <button onclick="startTimer()">▶️ Cronômetro</button>
+<section id="treinoAtivo">
+  <h2>Modo Treino</h2>
+  <div id="treinoExecucao"></div>
 </section>
 
 </main>
 
 <script src="app.js"></script>
-
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
-</script>
-
 </body>
 </html>
