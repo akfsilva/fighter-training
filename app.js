@@ -75,3 +75,4 @@ function startTimer() {
     timer.textContent = `${m}:${s}`;
   }, 1000);
 }
+
