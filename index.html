@@ -1,72 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Controle Fitness</title>
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fighter Training</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+
+  <meta name="theme-color" content="#c62828">
+
 </head>
 <body>
 
-<div class="container">
-<h2>Controle Fitness</h2>
-<p class="small">Alimentação • Treino • Evolução • PWA</p>
+  <header>
+    <h1>🔥 FIGHTER TRAINING 🔥</h1>
+    <p>Modo Treino Ativo</p>
+  </header>
 
-<!-- TEMPLATES DE TREINO -->
-<div class="card">
-<h3>📆 Templates de Treino (30 dias)</h3>
-<button onclick="generateTemplate()">Gerar Treinos (1 a 30)</button>
-</div>
+  <main>
 
-<!-- TREINO DO DIA -->
-<div class="card">
-<h3>🏋️ Treino do Dia</h3>
+    <section class="selectTreino">
+      <label>Selecione o Treino:</label>
+      <select id="treinoSelect"></select>
 
-<input type="date" id="trainingDate">
+      <div class="buttons">
+        <button onclick="iniciarTreino()">INICIAR</button>
+        <button class="danger" onclick="excluirTreino()">EXCLUIR TREINO</button>
+      </div>
+    </section>
 
-<select id="trainingNumber">
-  <option value="">Selecione o treino</option>
+    <section id="treinoAtivo" class="hidden">
+      <h2 id="treinoTitulo"></h2>
+
+      <div id="exercicios"></div>
+
+      <div class="status">
+        <p id="progresso"></p>
+        <button class="finish" onclick="finalizarTreino()">FINALIZAR TREINO</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+
   <script>
-    for(let i=1;i<=30;i++){
-      document.write(`<option value="${i}">Treino ${i}</option>`);
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
     }
   </script>
-</select>
 
-<hr>
-
-<input id="exName" placeholder="Exercício">
-<input id="exSets" type="number" placeholder="Séries">
-<input id="exReps" type="number" placeholder="Repetições">
-<input id="exLoad" type="number" placeholder="Carga (kg)">
-<input type="file" id="exVideo" accept="video/*">
-
-<button onclick="addExercise()">Adicionar exercício</button>
-
-<div id="exerciseList"></div>
-
-<button onclick="saveTraining()">Salvar treino</button>
-</div>
-
-<!-- DASHBOARD TREINO -->
-<div class="card">
-<h3>📊 Dashboard de Treino</h3>
-<canvas id="freqChart"></canvas>
-<canvas id="volumeChart"></canvas>
-</div>
-
-<!-- HISTÓRICO POR EXERCÍCIO -->
-<div class="card">
-<h3>📈 Histórico por Exercício</h3>
-<select id="exerciseHistorySelect" onchange="drawExerciseHistory()"></select>
-<canvas id="exerciseHistoryChart"></canvas>
-</div>
-
-</div>
-
-<script src="script.js"></script>
 </body>
 </html>
+
 
