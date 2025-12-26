@@ -1,4 +1,4 @@
-const CACHE = "fighter-cache-v1";
+const CACHE = "fighter-cache-v2";
 
 self.addEventListener("install", e => {
   e.waitUntil(
@@ -19,3 +19,4 @@ self.addEventListener("fetch", e => {
     caches.match(e.request).then(res => res || fetch(e.request))
   );
 });
+
