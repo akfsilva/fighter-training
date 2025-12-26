@@ -1,78 +1,117 @@
-let exercises = [];
-let seconds = 0;
-let timerInterval = null;
+const treinoSelect = document.getElementById("treinoSelect");
+const listaExercicios = document.getElementById("listaExercicios");
+const treinoExecucao = document.getElementById("treinoExecucao");
 
-// carregar vídeos do JSON
-fetch('videos/videos.json')
-  .then(res => res.json())
-  .then(videos => {
-    const select = document.getElementById('videoSelect');
-    videos.forEach(v => {
-      const opt = document.createElement('option');
-      opt.value = v;
-      opt.textContent = v;
-      select.appendChild(opt);
-    });
-  });
+let videos = [];
 
-function addExercise() {
-  const name = exName.value;
-  const series = exSeries.value;
-  const reps = exReps.value;
-  const load = exLoad.value;
-  const video = videoSelect.value;
+// ---------- INICIALIZA ----------
+initTreinos();
+carregarVideos();
+renderTreinos();
 
-  if (!name) return;
-
-  exercises.push({ name, series, reps, load, video });
-  renderExercises();
-
-  exName.value = '';
-  exSeries.value = '';
-  exReps.value = '';
-  exLoad.value = '';
-}
-
-function renderExercises() {
-  const list = document.getElementById('exerciseList');
-  list.innerHTML = '';
-
-  exercises.forEach((ex, i) => {
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <strong>${ex.name}</strong><br>
-      ${ex.series}x${ex.reps} | ${ex.load}<br>
-      <button onclick="playVideo('${ex.video}')">▶️ Ver exercício</button>
-      <button onclick="removeExercise(${i})">❌</button>
-    `;
-    list.appendChild(li);
-  });
-}
-
-function playVideo(file) {
-  const player = document.getElementById('player');
-  player.src = `videos/${file}`;
-  player.play();
-}
-
-function removeExercise(index) {
-  exercises.splice(index, 1);
-  renderExercises();
-}
-
-// cronômetro
-function startTimer() {
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-    return;
+function initTreinos() {
+  if (!localStorage.getItem("treinos")) {
+    const treinos = {};
+    for (let i = 1; i <= 30; i++) {
+      treinos[i] = [];
+    }
+    localStorage.setItem("treinos", JSON.stringify(treinos));
   }
+}
 
-  timerInterval = setInterval(() => {
-    seconds++;
-    const m = String(Math.floor(seconds / 60)).padStart(2, '0');
-    const s = String(seconds % 60).padStart(2, '0');
-    timer.textContent = `${m}:${s}`;
-  }, 1000);
+function carregarVideos() {
+  fetch("videos/videos.json")
+    .then(r => r.json())
+    .then(data => videos = data);
+}
+
+// ---------- TREINOS ----------
+function renderTreinos() {
+  treinoSelect.innerHTML = "";
+  for (let i = 1; i <= 30; i++) {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = `Treino ${i}`;
+    treinoSelect.appendChild(opt);
+  }
+  treinoSelect.onchange = renderExercicios;
+  renderExercicios();
+}
+
+function getTreinos() {
+  return JSON.parse(localStorage.getItem("treinos"));
+}
+
+function salvarTreinos(treinos) {
+  localStorage.setItem("treinos", JSON.stringify(treinos));
+}
+
+function excluirTreino() {
+  if (!confirm("Excluir TODOS os exercícios deste treino?")) return;
+  const treinos = getTreinos();
+  treinos[treinoSelect.value] = [];
+  salvarTreinos(treinos);
+  renderExercicios();
+}
+
+// ---------- EXERCÍCIOS ----------
+function novoExercicio() {
+  const treinos = getTreinos();
+  treinos[treinoSelect.value].push({
+    nome: "",
+    series: "",
+    reps: "",
+    carga: "",
+    video: ""
+  });
+  salvarTreinos(treinos);
+  renderExercicios();
+}
+
+function renderExercicios() {
+  listaExercicios.innerHTML = "";
+  treinoExecucao.innerHTML = "";
+
+  const treinos = getTreinos();
+  const exercicios = treinos[treinoSelect.value];
+
+  exercicios.forEach((ex, i) => {
+    const div = document.createElement("div");
+    div.className = "exercise";
+    div.innerHTML = `
+      <input placeholder="Exercício" value="${ex.nome}" onchange="editar(${i},'nome',this.value)">
+      <input placeholder="Séries" value="${ex.series}" onchange="editar(${i},'series',this.value)">
+      <input placeholder="Reps" value="${ex.reps}" onchange="editar(${i},'reps',this.value)">
+      <input placeholder="Carga" value="${ex.carga}" onchange="editar(${i},'carga',this.value)">
+      <select onchange="editar(${i},'video',this.value)">
+        <option value="">Vídeo</option>
+        ${videos.map(v => `<option ${v===ex.video?"selected":""}>${v}</option>`).join("")}
+      </select>
+      <button onclick="remover(${i})">🗑️</button>
+      ${ex.video ? `<video src="videos/${ex.video}" controls width="200"></video>` : ""}
+    `;
+    listaExercicios.appendChild(div);
+
+    if (ex.video) {
+      treinoExecucao.innerHTML += `
+        <h3>${ex.nome}</h3>
+        <video src="videos/${ex.video}" controls width="300"></video>
+      `;
+    }
+  });
+}
+
+function editar(i, campo, valor) {
+  const treinos = getTreinos();
+  treinos[treinoSelect.value][i][campo] = valor;
+  salvarTreinos(treinos);
+  renderExercicios();
+}
+
+function remover(i) {
+  const treinos = getTreinos();
+  treinos[treinoSelect.value].splice(i,1);
+  salvarTreinos(treinos);
+  renderExercicios();
 }
 
