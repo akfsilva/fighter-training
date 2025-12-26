@@ -1,76 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
   <title>Fighter Training</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
-
-  <meta name="theme-color" content="#c62828">
-
 </head>
 <body>
 
-  <header>
-    <h1>🔥 FIGHTER TRAINING 🔥</h1>
-    <p>Treinos de 30 dias, execução guiada</p>
-  </header>
+<header>
+  <h1>🥊 Fighter Training</h1>
+</header>
 
-  <main>
+<main>
 
-    <section class="selectTreino">
-      <label>Selecione o Treino:</label>
-      <select id="treinoSelect"></select>
+<section class="panel">
+  <h2>📂 Vídeos disponíveis</h2>
+  <select id="videoSelect"></select>
+</section>
 
-      <div class="buttons">
-        <button onclick="iniciarTreino()">INICIAR</button>
-        <button class="danger" onclick="excluirTreino()">EXCLUIR TREINO</button>
-        <button onclick="abrirMontagem()">MONTAR TREINO</button>
-      </div>
-    </section>
+<section class="panel">
+  <h2>➕ Criar Exercício</h2>
 
-    <section id="treinoAtivo" class="hidden">
-      <h2 id="treinoTitulo"></h2>
-      <div id="exercicios"></div>
-      <div class="status">
-        <p id="progresso"></p>
-        <button class="finish" onclick="finalizarTreino()">FINALIZAR TREINO</button>
-      </div>
-    </section>
+  <input id="exName" placeholder="Nome do exercício">
+  <input id="exSeries" type="number" placeholder="Séries">
+  <input id="exReps" type="number" placeholder="Repetições">
+  <input id="exLoad" placeholder="Carga (kg ou livre)">
 
-    <section id="montagemTreino" class="hidden">
-      <h2>MONTAGEM DE TREINO</h2>
-      <div id="listaExercicios"></div>
-      <div class="buttons">
-        <button onclick="salvarMontagem()">SALVAR TREINO</button>
-        <button onclick="fecharMontagem()">FECHAR</button>
-      </div>
-    </section>
+  <button onclick="addExercise()">Adicionar exercício</button>
+</section>
 
-    <section id="dashboard" class="hidden">
-      <h2>DASHBOARD DE TREINO</h2>
-      <canvas id="graficoFrequencia"></canvas>
-      <canvas id="graficoCalorias"></canvas>
-      <button onclick="fecharDashboard()">FECHAR</button>
-    </section>
+<section class="panel">
+  <h2>📋 Treino do Dia</h2>
+  <ul id="exerciseList"></ul>
+</section>
 
-  </main>
+<section class="panel">
+  <h2>▶️ Executar Exercício</h2>
+  <video id="player" controls></video>
+  <div id="timer">00:00</div>
+  <button onclick="startTimer()">▶️ Cronômetro</button>
+</section>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="app.js"></script>
+</main>
 
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./sw.js")
-        .then(() => console.log("SW registrado"))
-        .catch(console.error);
-    }
-  </script>
+<script src="app.js"></script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 
 </body>
 </html>
+
 
 
 
