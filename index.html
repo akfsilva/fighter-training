@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Fighter Training | Street Edition</title>
+  <title>Fighter Training | Pro Edition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#000000">
   <link rel="manifest" href="manifest.json">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="is-loading">
+<body>
 
 <div class="crt-overlay"></div>
 
@@ -19,24 +19,29 @@
   <div class="splash-content">
     <h1 class="logo-title">FIGHTER<br><span>TRAINING</span></h1>
     <div class="insert-coin-anim">INSERT COIN</div>
-    <p class="copyright">© 2025 GEMINI-CAPCOM STYLE</p>
+    <p class="copyright">© 2025 PRO PERSONAL ARCADE</p>
   </div>
 </div>
 
 <header id="main-header" class="hidden">
+  <div class="player-stats">
+    <div id="player-level">LVL. 01</div>
+    <div class="xp-bar-container"><div id="xp-fill"></div></div>
+  </div>
   <h1 class="glitch" data-text="FIGHTER TRAINING">FIGHTER TRAINING</h1>
 </header>
 
 <main id="main-content" class="hidden">
 <div class="container-grid">
-  <section class="arcade-card">
+  
+  <section class="arcade-card" id="stage-card">
     <h2 class="section-title">SELECT STAGE</h2>
     <div class="control-group">
       <select id="treinoSelect" class="arcade-select"></select>
       <div class="button-grid">
         <button onclick="novoExercicio()" class="btn-yellow">➕ ADD MOVE</button>
         <button onclick="excluirTreino()" class="btn-red">🗑️ CLEAR</button>
-        <button onclick="iniciarTreino()" class="btn-green btn-big">▶️ FIGHT!</button>
+        <button onclick="iniciarTreino()" class="btn-green btn-big">▶️ START MISSION</button>
       </div>
     </div>
   </section>
@@ -48,25 +53,47 @@
 
   <section class="arcade-card highlight">
     <h2 class="section-title">BATTLE ARENA</h2>
+    
+    <div id="rest-timer-container" class="hidden">
+        <div class="rest-box">
+            <p>RESTING...</p>
+            <div id="rest-seconds">60</div>
+            <button onclick="skipRest()" class="btn-blue" style="font-size:0.5rem">SKIP</button>
+        </div>
+    </div>
+
     <div id="treinoExecucao" class="active-workout"></div>
+    
     <div class="timer-container">
       <div class="health-bar"><div id="health-fill" class="health-fill"></div></div>
       <span id="tempo">00:00</span>
       <div class="timer-buttons">
-        <button onclick="startTimer()" class="btn-start">START</button>
-        <button onclick="pauseTimer()" class="btn-pause">PAUSE</button>
-        <button onclick="resetTimer()" class="btn-reset">RESET</button>
+        <button onclick="startTimer()" class="btn-green">START</button>
+        <button onclick="pauseTimer()" class="btn-yellow" style="color:#000">PAUSE</button>
+        <button onclick="stopTimer()" class="btn-red">STOP</button>
+        <button onclick="resetTimer()" class="btn-blue">RESET</button>
       </div>
     </div>
-    <button onclick="finalizarTreino()" class="btn-finish">🏁 K.O. (FINISH)</button>
+    <button onclick="abrirModalFinalizar()" class="btn-finish">🏁 FINISH K.O.</button>
   </section>
 
   <section class="arcade-card">
-    <h2 class="section-title">SCOREBOARD</h2>
-    <div class="chart-container"><canvas id="grafTreinos"></canvas></div>
-    <div class="chart-container"><canvas id="grafCalorias"></canvas></div>
+    <h2 class="section-title">EVOLUTION</h2>
+    <canvas id="grafTreinos"></canvas>
+    <div style="margin-top:20px;"></div>
+    <canvas id="grafCalorias"></canvas>
   </section>
 </div>
+
+<div id="modal-log" class="modal hidden">
+    <div class="modal-content arcade-card">
+        <h3>BATTLE LOG</h3>
+        <p>COMO FOI O ROUND?</p>
+        <textarea id="battle-note" class="arcade-input" rows="3" placeholder="Ex: Treino intenso, bati recorde no supino!"></textarea>
+        <button onclick="confirmarFinalizacao()" class="btn-green btn-big">SAVE DATA</button>
+    </div>
+</div>
+
 </main>
 
 <script src="app.js"></script>
