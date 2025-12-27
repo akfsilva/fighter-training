@@ -5,14 +5,11 @@
   <title>Fighter Training</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#e10600">
+  <meta name="theme-color" content="#000000">
 
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="./manifest.json">
-
-  <link rel="apple-touch-icon" href="./icons/icon-192.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="icon" href="icon-192.png">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -59,11 +56,10 @@
 
 <script src="app.js"></script>
 
-<!-- Service Worker -->
 <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js');
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js", { scope: "./" });
   });
 }
 </script>
