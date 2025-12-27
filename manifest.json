@@ -2,7 +2,7 @@
   "name": "Fighter Training",
   "short_name": "Fighter",
   "description": "App de treino com vídeos, séries e histórico",
-  "start_url": "/fighting-training/",
+  "start_url": "/fighting-training/index.html",
   "scope": "/fighting-training/",
   "display": "standalone",
   "orientation": "portrait",
