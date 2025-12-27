@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Fighter Training</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -13,21 +15,35 @@
 
 <main>
 
-<section id="treinos">
-  <h2>Treinos (1 a 30)</h2>
+<section>
+  <h2>Treinos</h2>
   <select id="treinoSelect"></select>
   <button onclick="novoExercicio()">➕ Exercício</button>
-  <button onclick="excluirTreino()">🗑️ Excluir Treino</button>
+  <button onclick="excluirTreino()">🗑️ Limpar Treino</button>
+  <button onclick="iniciarTreino()">▶️ Iniciar Treino</button>
 </section>
 
-<section id="editor">
-  <h2>Exercícios do Treino</h2>
+<section>
+  <h2>Editor</h2>
   <div id="listaExercicios"></div>
 </section>
 
-<section id="treinoAtivo">
-  <h2>Modo Treino</h2>
+<section>
+  <h2>Treino Ativo</h2>
   <div id="treinoExecucao"></div>
+  <div id="cronometro">
+    <span id="tempo">00:00</span><br>
+    <button onclick="startTimer()">Start</button>
+    <button onclick="pauseTimer()">Pause</button>
+    <button onclick="resetTimer()">Reset</button>
+  </div>
+  <button onclick="finalizarTreino()">🏁 Finalizar Treino</button>
+</section>
+
+<section>
+  <h2>Gráficos</h2>
+  <canvas id="grafTreinos"></canvas>
+  <canvas id="grafCalorias"></canvas>
 </section>
 
 </main>
